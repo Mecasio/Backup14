@@ -9,6 +9,7 @@ import {
     TableCell,
     Snackbar,
     Alert,
+    TableBody
 } from "@mui/material";
 import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
@@ -429,15 +430,15 @@ const VerifyDocumentsSchedule = () => {
     };
 
 
-const formatDate = (dateString) => {
-  if (!dateString) return "";
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
 
-  return new Date(dateString).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+        return new Date(dateString).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+    };
 
     const formatTime = (time) => {
         if (!time) return "";
@@ -586,312 +587,380 @@ const formatDate = (dateString) => {
             </Box>
 
             <br />
-            <br />
 
 
-            <TableContainer component={Paper} sx={{ width: '100%', border: `2px solid ${borderColor}`, mb: "40px" }}>
+            {/* ===== ADD / EDIT FORM ===== */}
+            <TableContainer
+                component={Paper}
+                sx={{
+                    width: "100%",
+                    border: `2px solid ${borderColor}`,
+                    mb: "40px",
+                }}
+            >
                 <Table>
-                    <TableHead sx={{ backgroundColor: settings?.header_color || "#1976d2", }}>
+                    <TableHead
+                        sx={{
+                            backgroundColor: settings?.header_color || "#1976d2",
+                        }}
+                    >
                         <TableRow>
-                            <TableCell sx={{ color: 'white', textAlign: "Center" }}>Verify Documents Schedule Management</TableCell>
+                            <TableCell
+                                sx={{
+                                    color: "white",
+                                    textAlign: "center",
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                {editingSchedule ? "UPDATE SCHEDULE" : "ADD SCHEDULE"}
+                            </TableCell>
                         </TableRow>
                     </TableHead>
+
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>
+                                {/* ===== MAIN CONTENT ===== */}
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12}>
+                                        <form onSubmit={handleSubmit}>
+                                            <Grid container spacing={2}>
+
+                                                <Grid item xs={12} md={6}>
+                                                    <TextField
+                                                        select
+                                                        fullWidth
+                                                        label="Branch"
+                                                        value={selectedBranch}
+                                                        onChange={(e) => setSelectedBranch(e.target.value)}
+                                                        required
+                                                    >
+                                                        {branches.map((b) => (
+                                                            <MenuItem key={b.id} value={b.branch}>
+                                                                {b.branch}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                </Grid>
+
+                                                <Grid item xs={12} md={6}>
+                                                    <TextField
+                                                        fullWidth
+                                                        type="date"
+                                                        label="Exam Date"
+                                                        InputLabelProps={{ shrink: true }}
+                                                        value={day}
+                                                        inputProps={{ min: minDate, max: maxDate }}
+                                                        onChange={(e) => setDay(e.target.value)}
+                                                        required
+                                                    />
+                                                </Grid>
+
+                                                <Grid item xs={12} md={6}>
+                                                    <TextField
+                                                        select
+                                                        fullWidth
+                                                        label="Building"
+                                                        value={buildingName}
+                                                        onChange={(e) => setBuildingName(e.target.value)}
+                                                        required
+                                                    >
+                                                        {[...new Set(
+                                                            rooms
+                                                                .map((r) => r.building_description)
+                                                                .filter(Boolean)
+                                                        )].map((b, i) => (
+                                                            <MenuItem key={i} value={b}>
+                                                                {b}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                </Grid>
+
+                                                <Grid item xs={12} md={6}>
+                                                    <TextField
+                                                        select
+                                                        fullWidth
+                                                        label="Room"
+                                                        value={roomId}
+                                                        onChange={(e) => setRoomId(e.target.value)}
+                                                        required
+                                                    >
+                                                        {rooms
+                                                            .filter(
+                                                                (r) =>
+                                                                    r.building_description === buildingName
+                                                            )
+                                                            .map((r) => (
+                                                                <MenuItem
+                                                                    key={r.room_id}
+                                                                    value={r.room_id}
+                                                                >
+                                                                    {r.room_description}
+                                                                </MenuItem>
+                                                            ))}
+                                                    </TextField>
+                                                </Grid>
+
+                                                <Grid item xs={6}>
+                                                    <TextField
+                                                        fullWidth
+                                                        label="Start Time"
+                                                        type="time"
+                                                        InputLabelProps={{ shrink: true }}
+                                                        value={startTime}
+                                                        onChange={(e) => setStartTime(e.target.value)}
+                                                        required
+                                                    />
+                                                </Grid>
+
+                                                <Grid item xs={6}>
+                                                    <TextField
+                                                        fullWidth
+                                                        label="End Time"
+                                                        type="time"
+                                                        InputLabelProps={{ shrink: true }}
+                                                        value={endTime}
+                                                        onChange={(e) => setEndTime(e.target.value)}
+                                                        required
+                                                    />
+                                                </Grid>
+
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        fullWidth
+                                                        label="Evaluator"
+                                                        value={evaluator}
+                                                        onChange={(e) => setEvaluator(e.target.value)}
+                                                        required
+                                                    />
+                                                </Grid>
+
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        fullWidth
+                                                        label="Room Quota"
+                                                        type="number"
+                                                        inputProps={{ min: 1 }}
+                                                        value={roomQuota}
+                                                        onChange={(e) => setRoomQuota(e.target.value)}
+                                                        required
+                                                    />
+                                                </Grid>
+
+                                                <Grid item xs={12} textAlign="center">
+                                                    <Button
+                                                        type="submit"
+                                                        variant="contained"
+                                                        sx={{
+                                                            px: 6,
+                                                            py: 1.5,
+                                                            bgcolor: "#1967d2",
+                                                            "&:hover": { bgcolor: "#000" },
+                                                        }}
+                                                    >
+                                                        {editingSchedule
+                                                            ? "Update Schedule"
+                                                            : "Save Schedule"}
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </form>
+                                    </Grid>
+                                </Grid>
+                            </TableCell>
+                        </TableRow>
+                    </TableBody>
                 </Table>
             </TableContainer>
 
-            <br />
+            {/* ===== EXISTING SCHEDULES ===== */}
+            <Grid item xs={12} md={8}>
+                <TableContainer
+                    component={Paper}
+                    sx={{
+                        width: "100%",
+                        border: `2px solid ${borderColor}`,
+                    }}
+                >
+                    <Table>
 
-            {/* ===== MAIN CONTENT ===== */}
-            <Grid container spacing={4}>
-                {/* ===== ADD / EDIT FORM ===== */}
-                <Grid item xs={12} md={4}>
-                    <Paper
-                        elevation={6}
-                        sx={{
-                            p: 3,
-
-
-                            border: `2px solid ${borderColor}`,
-                        }}
-                    >
-                        <Typography
-                            variant="h6"
-                            fontWeight="bold"
-                            textAlign="center"
-                            mb={3}
-                            color={subtitleColor}
+                        {/* ===== HEADER ===== */}
+                        <TableHead
+                            sx={{
+                                backgroundColor: settings?.header_color || "#1976d2",
+                            }}
                         >
-                            {editingSchedule ? "UPDATE SCHEDULE" : "ADD SCHEDULE"}
-                        </Typography>
+                            <TableRow>
+                                <TableCell
+                                    colSpan={9}
+                                    sx={{
+                                        color: "white",
+                                        textAlign: "center",
+                                        fontWeight: "bold",
+                                        fontSize: "18px",
+                                    }}
+                                >
+                                    EXISTING SCHEDULES
+                                </TableCell>
+                            </TableRow>
 
-                        <form onSubmit={handleSubmit}>
-                            <Grid container spacing={2}>
-
-                                <Grid item xs={12}>
-                                    <TextField
-                                        select
-                                        fullWidth
-                                        label="Branch"
-                                        value={selectedBranch}
-                                        onChange={(e) => setSelectedBranch(e.target.value)}
-                                        required
-                                    >
-                                        {branches.map((b) => (
-                                            <MenuItem key={b.id} value={b.branch}>
-                                                {b.branch}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        type="date"
-                                        label="Exam Date"
-                                        InputLabelProps={{ shrink: true }}
-                                        value={day}
-                                        inputProps={{ min: minDate, max: maxDate }}
-                                        onChange={(e) => setDay(e.target.value)}
-                                        required
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <TextField
-                                        select
-                                        fullWidth
-                                        label="Building"
-                                        value={buildingName}
-                                        onChange={(e) => setBuildingName(e.target.value)}
-                                        required
-                                    >
-                                        {[...new Set(rooms.map(r => r.building_description).filter(Boolean))]
-                                            .map((b, i) => (
-                                                <MenuItem key={i} value={b}>{b}</MenuItem>
-                                            ))}
-                                    </TextField>
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <TextField
-                                        select
-                                        fullWidth
-                                        label="Room"
-                                        value={roomId}
-                                        onChange={(e) => setRoomId(e.target.value)}
-                                        required
-                                    >
-                                        {rooms
-                                            .filter(r => r.building_description === buildingName)
-                                            .map(r => (
-                                                <MenuItem key={r.room_id} value={r.room_id}>
-                                                    {r.room_description}
-                                                </MenuItem>
-                                            ))}
-                                    </TextField>
-                                </Grid>
-
-                                <Grid item xs={6}>
-                                    <TextField
-                                        fullWidth
-                                        label="Start Time"
-                                        type="time"
-                                        InputLabelProps={{ shrink: true }}
-                                        value={startTime}
-                                        onChange={(e) => setStartTime(e.target.value)}
-                                        required
-                                    />
-                                </Grid>
-
-                                <Grid item xs={6}>
-                                    <TextField
-                                        fullWidth
-                                        label="End Time"
-                                        type="time"
-                                        InputLabelProps={{ shrink: true }}
-                                        value={endTime}
-                                        onChange={(e) => setEndTime(e.target.value)}
-                                        required
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        label="Evaluator"
-                                        value={evaluator}
-                                        onChange={(e) => setEvaluator(e.target.value)}
-                                        required
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <TextField
-                                        fullWidth
-                                        label="Room Quota"
-                                        type="number"
-                                        inputProps={{ min: 1 }}
-                                        value={roomQuota}
-                                        onChange={(e) => setRoomQuota(e.target.value)}
-                                        required
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12} textAlign="center">
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
+                            <TableRow>
+                                {[
+                                    "Branch",
+                                    "Date",
+                                    "Building",
+                                    "Room",
+                                    "Start Time",
+                                    "End Time",
+                                    "Evaluator",
+                                    "Quota",
+                                    "Actions",
+                                ].map((header) => (
+                                    <TableCell
+                                        key={header}
                                         sx={{
-                                            px: 6,
-                                            py: 1.5,
-
-                                            bgcolor: "#1967d2",
-                                            "&:hover": { bgcolor: "#000" },
+                                            color: "white",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            border: `1px solid ${borderColor}`,
                                         }}
                                     >
-                                        {editingSchedule ? "Update Schedule" : "Save Schedule"}
-                                    </Button>
-                                </Grid>
-
-
-                            </Grid>
-                        </form>
-                    </Paper>
-                </Grid>
-
-                {/* ===== SCHEDULE LIST ===== */}
-                <Grid item xs={12} md={8}>
-                    <Paper
-                        elevation={6}
-                        sx={{
-                            p: 3,
-
-                            border: `2px solid ${borderColor}`,
-                        }}
-                    >
-                        <Typography
-                            variant="h6"
-                            fontWeight="bold"
-                            textAlign="center"
-                            mb={2}
-                        >
-                            EXISTING SCHEDULES
-                        </Typography>
-
-                        <Box display="flex" gap={2} mb={3} flexWrap="wrap">
-
-                            <TextField
-                                select
-                                label="Select Campus"
-                                value={selectedCampusFilter}
-                                onChange={(e) => setSelectedCampusFilter(e.target.value)}
-                                sx={{ minWidth: 200 }}
-                            >
-                                <MenuItem value="">All Campus</MenuItem>
-                                {branches.map((b) => (
-                                    <MenuItem key={b.id} value={b.branch}>
-                                        {b.branch}
-                                    </MenuItem>
+                                        {header}
+                                    </TableCell>
                                 ))}
-                            </TextField>
+                            </TableRow>
+                        </TableHead>
 
-                            {/* 📆 Month Selector */}
-                            <TextField
-                                select
-                                label="Select Month"
-                                value={selectedMonth}
-                                onChange={(e) => {
-                                    setSelectedMonth(e.target.value);
-                                    setSelectedDate(""); // reset date when month changes
-                                }}
-                                sx={{ minWidth: 200 }}
-                            >
-                                <MenuItem value="">All Months</MenuItem>
-                                {Array.from({ length: 12 }).map((_, i) => (
-                                    <MenuItem key={i + 1} value={i + 1}>
-                                        {new Date(0, i).toLocaleString("default", { month: "long" })}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
+                        {/* ===== FILTER SECTION ===== */}
+                        <TableBody>
 
-                            {/* 📅 Date Selector */}
-                            <TextField
-                                select
-                                label="Select Exam Date"
-                                value={selectedDate}
-                                onChange={(e) => setSelectedDate(e.target.value)}
-                                disabled={!selectedMonth}
-                                sx={{ minWidth: 220 }}
-                            >
-                                <MenuItem value="">All Dates</MenuItem>
-                                {availableDates.map((date) => (
-                                    <MenuItem key={date} value={date}>
-                                        {formatDate(date)}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </Box>
+                            {/* FILTER ROW */}
+                            <TableRow>
+                                <TableCell colSpan={9}>
+                                    <Box display="flex" gap={2} flexWrap="wrap">
 
+                                        <TextField
+                                            select
+                                            label="Select Campus"
+                                            value={selectedCampusFilter}
+                                            onChange={(e) =>
+                                                setSelectedCampusFilter(e.target.value)
+                                            }
+                                            sx={{ minWidth: 200 }}
+                                        >
+                                            <MenuItem value="">All Campus</MenuItem>
+                                            {branches.map((b) => (
+                                                <MenuItem key={b.id} value={b.branch}>
+                                                    {b.branch}
+                                                </MenuItem>
+                                            ))}
+                                        </TextField>
 
+                                        <TextField
+                                            select
+                                            label="Select Month"
+                                            value={selectedMonth}
+                                            onChange={(e) => {
+                                                setSelectedMonth(e.target.value);
+                                                setSelectedDate("");
+                                            }}
+                                            sx={{ minWidth: 200 }}
+                                        >
+                                            <MenuItem value="">All Months</MenuItem>
+                                            {Array.from({ length: 12 }).map((_, i) => (
+                                                <MenuItem key={i + 1} value={i + 1}>
+                                                    {new Date(0, i).toLocaleString("default", {
+                                                        month: "long",
+                                                    })}
+                                                </MenuItem>
+                                            ))}
+                                        </TextField>
 
-                        <Box sx={{ maxHeight: 520, overflowY: "auto" }}>
-                            <table width="100%" style={{ borderCollapse: "collapse" }}>
-                                <thead>
-                                    <tr style={{ backgroundColor: settings?.header_color || "#1976d2", color: "#ffffff" }}>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>Branch</th>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>Date</th>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>Building</th>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>Room</th>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>Start Time</th>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>End Time</th>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>Evaluator</th>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>Quota</th>
-                                        <th style={{ border: `2px solid ${borderColor}`, width: "33.33%", padding: "12px 8px" }}>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {filteredSchedules.map(s => (
-                                        <tr key={`${s.id}-${s.day_description}-${s.room_description}`}>
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>{s.branch}</td>
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>{formatDate(s.schedule_date)}</td>
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>{s.building_description}</td>
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>{s.room_description}</td>
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>
-                                                {formatTime(s.start_time)}
-                                            </td>
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>
-                                                {formatTime(s.end_time)}
-                                            </td>
+                                        <TextField
+                                            select
+                                            label="Select Exam Date"
+                                            value={selectedDate}
+                                            onChange={(e) =>
+                                                setSelectedDate(e.target.value)
+                                            }
+                                            disabled={!selectedMonth}
+                                            sx={{ minWidth: 220 }}
+                                        >
+                                            <MenuItem value="">All Dates</MenuItem>
+                                            {availableDates.map((date) => (
+                                                <MenuItem key={date} value={date}>
+                                                    {formatDate(date)}
+                                                </MenuItem>
+                                            ))}
+                                        </TextField>
 
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>{s.evaluator}</td>
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>{s.room_quota}</td>
-                                            <td style={{ border: `2px solid ${borderColor}`, padding: "12px 8px", textAlign: "center" }}>
-                                                <Button variant="contained"
-                                                    size="small"
-                                                    sx={{ backgroundColor: "green", color: "white", mr: 1 }} onClick={() => handleEdit(s)}>
-                                                    Edit
-                                                </Button>
-                                                <Button
-                                                    variant="contained"
-                                                    size="small"
-                                                    sx={{ backgroundColor: "#9E0000", color: "white" }}
-                                                    onClick={() => {
-                                                        setScheduleToDelete(s);
-                                                        setOpenDeleteDialog(true);
-                                                    }}
-                                                >
-                                                    Delete
-                                                </Button>
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
 
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </Box>
-                    </Paper>
-                </Grid>
+                            {/* DATA ROWS */}
+                            {filteredSchedules.map((s) => (
+                                <TableRow
+                                    key={`${s.id}-${s.day_description}-${s.room_description}`}
+                                >
+                                    <TableCell align="center">{s.branch}</TableCell>
+                                    <TableCell align="center">
+                                        {formatDate(s.schedule_date)}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {s.building_description}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {s.room_description}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {formatTime(s.start_time)}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {formatTime(s.end_time)}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {s.evaluator}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        {s.room_quota}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            sx={{
+                                                backgroundColor: "green",
+                                                color: "white",
+                                                mr: 1,
+                                            }}
+                                            onClick={() => handleEdit(s)}
+                                        >
+                                            Edit
+                                        </Button>
+
+                                        <Button
+                                            variant="contained"
+                                            size="small"
+                                            sx={{
+                                                backgroundColor: "#9E0000",
+                                                color: "white",
+                                            }}
+                                            onClick={() => {
+                                                setScheduleToDelete(s);
+                                                setOpenDeleteDialog(true);
+                                            }}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </Grid>
 
             {/* ===== DELETE CONFIRM DIALOG ===== */}
