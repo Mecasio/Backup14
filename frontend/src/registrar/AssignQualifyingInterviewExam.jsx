@@ -575,12 +575,210 @@ const AssignQualifyingInterviewExam = () => {
 
 
 
+ <TableContainer
+        component={Paper}
+        sx={{ width: "100%", border: `2px solid ${borderColor}` }}
+      >
+        <Table>
+          <TableHead sx={{ backgroundColor: settings?.header_color || "#1976d2" }}>
+            <TableRow>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Existing Schedules
+              </TableCell>
+            </TableRow>
+          </TableHead>
+        </Table>
+      </TableContainer>
+
+      <Paper
+        elevation={3}
+        sx={{
+          p: 3,
+          border: `2px solid ${borderColor}`,
+
+        }}
+      >
 
 
 
 
 
+            <TableContainer component={Paper} sx={{ width: '100%', }}>
+                <Table size="small">
+                    <TableHead sx={{ backgroundColor: '#6D2323', color: "white" }}>
+                        <TableRow>
+                            <TableCell colSpan={10} sx={{ border: `2px solid ${borderColor}`, py: 0.5, backgroundColor: settings?.header_color || "#1976d2", color: "white" }}>
+                                <Box
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                    flexWrap="wrap"
+                                    gap={1}
+                                >
+                                    {/* LEFT SIDE */}
+                                    <Typography fontSize="14px" fontWeight="bold" color="white">
+                                        Total Rooms: ({filteredSchedules.length})
+                                    </Typography>
 
+                                    {/* RIGHT SIDE */}
+                                    <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
+
+                                        <Button
+                                            onClick={() => setCurrentPage(1)}
+                                            disabled={currentPage === 1}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{
+                                                minWidth: 80,
+                                                color: "white",
+                                                borderColor: "white",
+                                                backgroundColor: "transparent",
+                                                '&:hover': {
+                                                    borderColor: 'white',
+                                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: "white",
+                                                    borderColor: "white",
+                                                    backgroundColor: "transparent",
+                                                    opacity: 1,
+                                                }
+                                            }}
+                                        >
+                                            First
+                                        </Button>
+
+                                        <Button
+                                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                            disabled={currentPage === 1}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{
+                                                minWidth: 80,
+                                                color: "white",
+                                                borderColor: "white",
+                                                backgroundColor: "transparent",
+                                                '&:hover': {
+                                                    borderColor: 'white',
+                                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: "white",
+                                                    borderColor: "white",
+                                                    backgroundColor: "transparent",
+                                                    opacity: 1,
+                                                }
+                                            }}
+                                        >
+                                            Prev
+                                        </Button>
+
+
+                                        {/* Page Dropdown */}
+                                        <FormControl size="small" sx={{ minWidth: 80 }}>
+                                            <Select
+                                                value={currentPage}
+                                                onChange={(e) => setCurrentPage(Number(e.target.value))}
+                                                displayEmpty
+                                                sx={{
+                                                    fontSize: '12px',
+                                                    height: 36,
+                                                    color: 'white',
+                                                    border: '1px solid white',
+                                                    backgroundColor: 'transparent',
+                                                    '.MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'white',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'white',
+                                                    },
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'white',
+                                                    },
+                                                    '& svg': {
+                                                        color: 'white', // dropdown arrow icon color
+                                                    }
+                                                }}
+                                                MenuProps={{
+                                                    PaperProps: {
+                                                        sx: {
+                                                            maxHeight: 200,
+                                                            backgroundColor: '#fff', // dropdown background
+                                                        }
+                                                    }
+                                                }}
+                                            >
+                                                {Array.from({ length: totalPages }, (_, i) => (
+                                                    <MenuItem key={i + 1} value={i + 1}>
+                                                        Page {i + 1}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+
+                                        <Typography fontSize="11px" color="white">
+                                            of {totalPages} page{totalPages > 1 ? 's' : ''}
+                                        </Typography>
+
+
+                                        {/* Next & Last */}
+                                        <Button
+                                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                            disabled={currentPage === totalPages}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{
+                                                minWidth: 80,
+                                                color: "white",
+                                                borderColor: "white",
+                                                backgroundColor: "transparent",
+                                                '&:hover': {
+                                                    borderColor: 'white',
+                                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: "white",
+                                                    borderColor: "white",
+                                                    backgroundColor: "transparent",
+                                                    opacity: 1,
+                                                }
+                                            }}
+                                        >
+                                            Next
+                                        </Button>
+
+                                        <Button
+                                            onClick={() => setCurrentPage(totalPages)}
+                                            disabled={currentPage === totalPages}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{
+                                                minWidth: 80,
+                                                color: "white",
+                                                borderColor: "white",
+                                                backgroundColor: "transparent",
+                                                '&:hover': {
+                                                    borderColor: 'white',
+                                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: "white",
+                                                    borderColor: "white",
+                                                    backgroundColor: "transparent",
+                                                    opacity: 1,
+                                                }
+                                            }}
+                                        >
+                                            Last
+                                        </Button>
+
+                                    </Box>
+                                </Box>
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                </Table>
+            </TableContainer>
             {/* ================= SCHEDULE LIST ================= */}
             <TableContainer
                 component={Paper}
@@ -593,128 +791,12 @@ const AssignQualifyingInterviewExam = () => {
 
                     {/* ===== HEADER WITH FILTERS ===== */}
                     <TableHead>
-                        <TableRow
-                            sx={{
-                                backgroundColor: settings?.header_color || "#1976d2",
-                            }}
-                        >
-                            <TableCell
-                                colSpan={10}
-                                sx={{
-                                    border: `2px solid ${borderColor}`,
-                                    py: 1,
-                                    color: "white",
-                                }}
-                            >
-                                <Box
-                                    display="flex"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    flexWrap="wrap"
-                                    gap={2}
-                                >
-                                    <Typography fontSize="15px" fontWeight="bold" color="white">
-                                        EXISTING SCHEDULES ({filteredSchedules.length})
-                                    </Typography>
 
-                                    <Box display="flex" gap={1.5} flexWrap="wrap">
-
-                                        {/* Campus */}
-                                        <TextField
-                                            select
-                                            size="small"
-                                            value={selectedCampusFilter}
-                                            onChange={(e) => setSelectedCampusFilter(e.target.value)}
-                                            SelectProps={{
-                                                displayEmpty: true,
-                                                renderValue: (selected) => {
-                                                    if (!selected) {
-                                                        return <span style={{ color: "white", opacity: 0.7 }}>Select Campus</span>;
-                                                    }
-                                                    return selected;
-                                                },
-                                            }}
-                                            sx={whiteSelectStyle}
-                                        >
-                                            <MenuItem value="" disabled>
-                                                Select Campus
-                                            </MenuItem>
-                                            <MenuItem value="">All Campus</MenuItem>
-                                            {branches.map((b) => (
-                                                <MenuItem key={b.id} value={b.branch}>
-                                                    {b.branch}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField>
-                                        <TextField
-                                            select
-                                            size="small"
-                                            value={selectedMonth}
-                                            onChange={(e) => {
-                                                setSelectedMonth(e.target.value);
-                                                setSelectedDate("");
-                                            }}
-                                            SelectProps={{
-                                                displayEmpty: true,
-                                                renderValue: (selected) => {
-                                                    if (!selected) {
-                                                        return <span style={{ color: "white", opacity: 0.7 }}>Select Month</span>;
-                                                    }
-                                                    return new Date(0, selected - 1).toLocaleString("default", {
-                                                        month: "long",
-                                                    });
-                                                },
-                                            }}
-                                            sx={whiteSelectStyle}
-                                        >
-                                            <MenuItem value="" disabled>
-                                                Select Month
-                                            </MenuItem>
-                                            <MenuItem value="">All Months</MenuItem>
-                                            {Array.from({ length: 12 }).map((_, i) => (
-                                                <MenuItem key={i + 1} value={i + 1}>
-                                                    {new Date(0, i).toLocaleString("default", { month: "long" })}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField>
-
-                                        <TextField
-                                            select
-                                            size="small"
-                                            value={selectedDate}
-                                            onChange={(e) => setSelectedDate(e.target.value)}
-                                            disabled={!selectedMonth}
-                                            SelectProps={{
-                                                displayEmpty: true,
-                                                renderValue: (selected) => {
-                                                    if (!selected) {
-                                                        return <span style={{ color: "white", opacity: 0.7 }}>Select Date</span>;
-                                                    }
-                                                    return formatDate(selected);
-                                                },
-                                            }}
-                                            sx={whiteSelectStyle}
-                                        >
-                                            <MenuItem value="" disabled>
-                                                Select Date
-                                            </MenuItem>
-                                            <MenuItem value="">All Dates</MenuItem>
-                                            {availableDates.map((date) => (
-                                                <MenuItem key={date} value={date}>
-                                                    {formatDate(date)}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField>
-
-                                    </Box>
-                                </Box>
-                            </TableCell>
-                        </TableRow>
 
                         {/* COLUMN HEADERS */}
                         <TableRow>
                             {[
-                                "ID", "Branch", "Date", "Building", "Room",
+                                "#", "Branch", "Date", "Building", "Room",
                                 "Start", "End", "Interviewer",
                                 "Quota", "Actions"
                             ].map(h => (
@@ -777,173 +859,184 @@ const AssignQualifyingInterviewExam = () => {
                             <TableCell colSpan={10} sx={{ border: `2px solid ${borderColor}`, py: 0.5, backgroundColor: settings?.header_color || "#1976d2", color: "white" }}>
                                 <Box
                                     display="flex"
-                                    justifyContent="flex-end"
+                                    justifyContent="space-between"
                                     alignItems="center"
-                                    gap={1}
                                     flexWrap="wrap"
+                                    gap={1}
                                 >
-                                    <Button
-                                        onClick={() => setCurrentPage(1)}
-                                        disabled={currentPage === 1}
-                                        variant="outlined"
-                                        size="small"
-                                        sx={{
-                                            minWidth: 80,
-                                            color: "white",
-                                            borderColor: "white",
-                                            backgroundColor: "transparent",
-                                            '&:hover': {
-                                                borderColor: 'white',
-                                                backgroundColor: 'rgba(255,255,255,0.1)',
-                                            },
-                                            '&.Mui-disabled': {
-                                                color: "white",
-                                                borderColor: "white",
-                                                backgroundColor: "transparent",
-                                                opacity: 1,
-                                            }
-                                        }}
-                                    >
-                                        First
-                                    </Button>
+                                    {/* LEFT SIDE */}
+                                    <Typography fontSize="14px" fontWeight="bold" color="white">
+                                        Total Rooms: ({filteredSchedules.length})
+                                    </Typography>
 
-                                    <Button
-                                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                                        disabled={currentPage === 1}
-                                        variant="outlined"
-                                        size="small"
-                                        sx={{
-                                            minWidth: 80,
-                                            color: "white",
-                                            borderColor: "white",
-                                            backgroundColor: "transparent",
-                                            '&:hover': {
-                                                borderColor: 'white',
-                                                backgroundColor: 'rgba(255,255,255,0.1)',
-                                            },
-                                            '&.Mui-disabled': {
-                                                color: "white",
-                                                borderColor: "white",
-                                                backgroundColor: "transparent",
-                                                opacity: 1,
-                                            }
-                                        }}
-                                    >
-                                        Prev
-                                    </Button>
+                                    {/* RIGHT SIDE */}
+                                    <Box display="flex" alignItems="center" gap={1} flexWrap="wrap">
 
-
-                                    {/* Page Dropdown */}
-                                    <FormControl size="small" sx={{ minWidth: 80 }}>
-                                        <Select
-                                            value={currentPage}
-                                            onChange={(e) => setCurrentPage(Number(e.target.value))}
-                                            displayEmpty
+                                        <Button
+                                            onClick={() => setCurrentPage(1)}
+                                            disabled={currentPage === 1}
+                                            variant="outlined"
+                                            size="small"
                                             sx={{
-                                                fontSize: '12px',
-                                                height: 36,
-                                                color: 'white',
-                                                border: '1px solid white',
-                                                backgroundColor: 'transparent',
-                                                '.MuiOutlinedInput-notchedOutline': {
+                                                minWidth: 80,
+                                                color: "white",
+                                                borderColor: "white",
+                                                backgroundColor: "transparent",
+                                                '&:hover': {
                                                     borderColor: 'white',
+                                                    backgroundColor: 'rgba(255,255,255,0.1)',
                                                 },
-                                                '&:hover .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: 'white',
-                                                },
-                                                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: 'white',
-                                                },
-                                                '& svg': {
-                                                    color: 'white', // dropdown arrow icon color
-                                                }
-                                            }}
-                                            MenuProps={{
-                                                PaperProps: {
-                                                    sx: {
-                                                        maxHeight: 200,
-                                                        backgroundColor: '#fff', // dropdown background
-                                                    }
+                                                '&.Mui-disabled': {
+                                                    color: "white",
+                                                    borderColor: "white",
+                                                    backgroundColor: "transparent",
+                                                    opacity: 1,
                                                 }
                                             }}
                                         >
-                                            {Array.from({ length: totalPages }, (_, i) => (
-                                                <MenuItem key={i + 1} value={i + 1}>
-                                                    Page {i + 1}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
+                                            First
+                                        </Button>
 
-                                    <Typography fontSize="11px" color="white">
-                                        of {totalPages} page{totalPages > 1 ? 's' : ''}
-                                    </Typography>
-
-
-                                    {/* Next & Last */}
-                                    <Button
-                                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                                        disabled={currentPage === totalPages}
-                                        variant="outlined"
-                                        size="small"
-                                        sx={{
-                                            minWidth: 80,
-                                            color: "white",
-                                            borderColor: "white",
-                                            backgroundColor: "transparent",
-                                            '&:hover': {
-                                                borderColor: 'white',
-                                                backgroundColor: 'rgba(255,255,255,0.1)',
-                                            },
-                                            '&.Mui-disabled': {
+                                        <Button
+                                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                            disabled={currentPage === 1}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{
+                                                minWidth: 80,
                                                 color: "white",
                                                 borderColor: "white",
                                                 backgroundColor: "transparent",
-                                                opacity: 1,
-                                            }
-                                        }}
-                                    >
-                                        Next
-                                    </Button>
+                                                '&:hover': {
+                                                    borderColor: 'white',
+                                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: "white",
+                                                    borderColor: "white",
+                                                    backgroundColor: "transparent",
+                                                    opacity: 1,
+                                                }
+                                            }}
+                                        >
+                                            Prev
+                                        </Button>
 
-                                    <Button
-                                        onClick={() => setCurrentPage(totalPages)}
-                                        disabled={currentPage === totalPages}
-                                        variant="outlined"
-                                        size="small"
-                                        sx={{
-                                            minWidth: 80,
-                                            color: "white",
-                                            borderColor: "white",
-                                            backgroundColor: "transparent",
-                                            '&:hover': {
-                                                borderColor: 'white',
-                                                backgroundColor: 'rgba(255,255,255,0.1)',
-                                            },
-                                            '&.Mui-disabled': {
+
+                                        {/* Page Dropdown */}
+                                        <FormControl size="small" sx={{ minWidth: 80 }}>
+                                            <Select
+                                                value={currentPage}
+                                                onChange={(e) => setCurrentPage(Number(e.target.value))}
+                                                displayEmpty
+                                                sx={{
+                                                    fontSize: '12px',
+                                                    height: 36,
+                                                    color: 'white',
+                                                    border: '1px solid white',
+                                                    backgroundColor: 'transparent',
+                                                    '.MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'white',
+                                                    },
+                                                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'white',
+                                                    },
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'white',
+                                                    },
+                                                    '& svg': {
+                                                        color: 'white', // dropdown arrow icon color
+                                                    }
+                                                }}
+                                                MenuProps={{
+                                                    PaperProps: {
+                                                        sx: {
+                                                            maxHeight: 200,
+                                                            backgroundColor: '#fff', // dropdown background
+                                                        }
+                                                    }
+                                                }}
+                                            >
+                                                {Array.from({ length: totalPages }, (_, i) => (
+                                                    <MenuItem key={i + 1} value={i + 1}>
+                                                        Page {i + 1}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+
+                                        <Typography fontSize="11px" color="white">
+                                            of {totalPages} page{totalPages > 1 ? 's' : ''}
+                                        </Typography>
+
+
+                                        {/* Next & Last */}
+                                        <Button
+                                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                            disabled={currentPage === totalPages}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{
+                                                minWidth: 80,
                                                 color: "white",
                                                 borderColor: "white",
                                                 backgroundColor: "transparent",
-                                                opacity: 1,
-                                            }
-                                        }}
-                                    >
-                                        Last
-                                    </Button>
+                                                '&:hover': {
+                                                    borderColor: 'white',
+                                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: "white",
+                                                    borderColor: "white",
+                                                    backgroundColor: "transparent",
+                                                    opacity: 1,
+                                                }
+                                            }}
+                                        >
+                                            Next
+                                        </Button>
 
+                                        <Button
+                                            onClick={() => setCurrentPage(totalPages)}
+                                            disabled={currentPage === totalPages}
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{
+                                                minWidth: 80,
+                                                color: "white",
+                                                borderColor: "white",
+                                                backgroundColor: "transparent",
+                                                '&:hover': {
+                                                    borderColor: 'white',
+                                                    backgroundColor: 'rgba(255,255,255,0.1)',
+                                                },
+                                                '&.Mui-disabled': {
+                                                    color: "white",
+                                                    borderColor: "white",
+                                                    backgroundColor: "transparent",
+                                                    opacity: 1,
+                                                }
+                                            }}
+                                        >
+                                            Last
+                                        </Button>
+
+                                    </Box>
                                 </Box>
                             </TableCell>
                         </TableRow>
                     </TableHead>
                 </Table>
             </TableContainer>
+            </Paper>
+
 
             <br />
             <br />
             <TableContainer
                 component={Paper}
                 sx={{
-                    width: "100%",
+                    width: "50%",
                     border: `2px solid ${borderColor}`,
 
                 }}

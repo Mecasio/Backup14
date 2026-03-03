@@ -279,7 +279,7 @@ const RequirementsForm = () => {
       <hr style={{ border: "1px solid #ccc", width: "100%" }} />
       <br />
 
-      <TableContainer component={Paper} sx={{ width: '100%', border: `2px solid ${borderColor}`, mb: "40px" }}>
+      <TableContainer component={Paper} sx={{ width: '100%', border: `2px solid ${borderColor}`, }}>
         <Table>
           <TableHead sx={{ backgroundColor: settings?.header_color || "#1976d2", }}>
             <TableRow>
@@ -289,101 +289,102 @@ const RequirementsForm = () => {
         </Table>
       </TableContainer>
 
+      <div
+        style={{ border: `2px solid ${borderColor}`, }}
+        className=" bg-gray-50 p-6  shadow-sm max-h-100 overflow-y-auto"
+      >
+        <h3 style={{ color: subtitleColor, }} className="text-xl font-semibold mb-4">
+          Saved Requirements
+        </h3>
 
-      <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8">
-        {/* Left Side - Form */}
-        <div
-          style={{ border: `2px solid ${borderColor}`, }}
-          className="md:w-1/2 bg-gray-50 p-6 rounded-lg shadow-sm"
-        >
-          <h3 style={{ color: subtitleColor, }} className="text-xl font-semibold mb-4">
-            Add a New Requirement
-          </h3>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Typography fontWeight={500}>Requirements Description:</Typography>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter requirement description"
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <Typography fontWeight={500}>Short Label:</Typography>
-            <input
-              type="text"
-              value={shortLabel}
-              onChange={(e) => setShortLabel(e.target.value)}
-              placeholder="Enter short label (e.g., F138)"
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <Typography fontWeight={500}>Category:</Typography>
-            {/* ✅ Category Selector */}
-            <FormControl fullWidth>
-              <InputLabel>Category</InputLabel>
-              <Select
-                value={category}
-                label="Category"
-                onChange={(e) => setCategory(e.target.value)}
-              >
-                <MenuItem value="Regular">Regular Requirements</MenuItem>
-                <MenuItem value="Medical">Medical Requirements</MenuItem>
-                <MenuItem value="Others">Other Requirements</MenuItem>
-              </Select>
-            </FormControl>
-
-            <button
-              type="submit"
-              className="w-full py-3 text-white rounded-lg shadow-md hover:bg-red-700 transition duration-300"
-              style={{ backgroundColor: "#1976d2" }}
-            >
-              Save Requirement
-            </button>
-          </form>
-        </div>
-
-        {/* Right Side - Display Saved Requirements */}
-        <div
-          style={{ border: `2px solid ${borderColor}`, }}
-          className="md:w-1/2 bg-gray-50 p-6 rounded-lg shadow-sm max-h-100 overflow-y-auto"
-        >
-          <h3 style={{ color: subtitleColor, }} className="text-xl font-semibold mb-4">
-            Saved Requirements
-          </h3>
-
-          {Object.keys(groupedRequirements).map((cat) => (
-            <div key={cat}>
-              <h4 className="font-bold text-maroon mt-3 mb-2">{cat}:</h4>
-              <ul className="space-y-2">
-                {groupedRequirements[cat].map((req) => (
-                  <li
-                    key={req.id}
-                    className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm flex justify-between items-center"
+        {Object.keys(groupedRequirements).map((cat) => (
+          <div key={cat}>
+            <h4 className="font-bold text-maroon mt-3 mb-2">{cat}:</h4>
+            <ul className="space-y-2">
+              {groupedRequirements[cat].map((req) => (
+                <li
+                  key={req.id}
+                  className="bg-white p-3 border border-gray-200 rounded-lg shadow-sm flex justify-between items-center"
+                >
+                  <span className="text-gray-800">{req.description}</span>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      backgroundColor: "#9E0000",
+                      color: "white",
+                    }}
+                    onClick={() => {
+                      setRequirementToDelete(req);
+                      setOpenDeleteDialog(true);
+                    }}
                   >
-                    <span className="text-gray-800">{req.description}</span>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      sx={{
-                        backgroundColor: "#9E0000",
-                        color: "white",
-                      }}
-                      onClick={() => {
-                        setRequirementToDelete(req);
-                        setOpenDeleteDialog(true);
-                      }}
-                    >
-                      Delete
-                    </Button>
+                    Delete
+                  </Button>
 
 
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
+
+      <br />
+      <br />
+      <div
+        style={{ border: `2px solid ${borderColor}`, }}
+        className=" bg-gray-50 p-6 shadow-sm"
+      >
+        <h3 style={{ color: subtitleColor, }} className="text-xl font-semibold mb-4">
+          Add a New Requirement
+        </h3>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Typography fontWeight={500}>Requirements Description:</Typography>
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter requirement description"
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <Typography fontWeight={500}>Short Label:</Typography>
+          <input
+            type="text"
+            value={shortLabel}
+            onChange={(e) => setShortLabel(e.target.value)}
+            placeholder="Enter short label (e.g., F138)"
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <Typography fontWeight={500}>Category:</Typography>
+          {/* ✅ Category Selector */}
+          <FormControl fullWidth>
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={category}
+              label="Category"
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <MenuItem value="Regular">Regular Requirements</MenuItem>
+              <MenuItem value="Medical">Medical Requirements</MenuItem>
+              <MenuItem value="Others">Other Requirements</MenuItem>
+            </Select>
+          </FormControl>
+
+          <button
+            type="submit"
+            className="w-full py-3 text-white rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+            style={{ backgroundColor: "#1976d2" }}
+          >
+            Save Requirement
+          </button>
+        </form>
+      </div>
+
+      {/* Right Side - Display Saved Requirements */}
+
+
 
       <Dialog
         open={openDeleteDialog}

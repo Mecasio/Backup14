@@ -1675,7 +1675,7 @@ const ReadmissionDashboard1 = () => {
                 error={!!errors.campus}
                 className="mb-4"
               >
-                <InputLabel id="campus-label">Campus</InputLabel>
+                
 
                 <Select
                   id="campus-select"

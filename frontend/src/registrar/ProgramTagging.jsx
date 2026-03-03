@@ -965,7 +965,7 @@ const ProgramTagging = () => {
             setFilteredPrograms={setFilteredPrograms}
           />
 
-          <TableContainer component={Paper} sx={{ width: '100%' }}>
+          <TableContainer component={Paper} sx={{ width: '100%', mt: 4 }}>
             <Table size="small">
               <TableHead sx={{ backgroundColor: '#6D2323', color: "white" }}>
                 <TableRow>
@@ -1133,7 +1133,7 @@ const ProgramTagging = () => {
                         textAlign: "center"
                       }}
                     >
-                      ID
+                     # 
                     </th>
 
 

@@ -337,7 +337,7 @@ const ProgramPanel = () => {
     th: {
 
       padding: "8px",
-      textAlign: "left",
+      textAlign: "center",
       fontWeight: "bold",
       border: `2px solid ${borderColor}`,
       fontSize: "16px",
@@ -614,7 +614,7 @@ const ProgramPanel = () => {
               <th style={styles.th}>Description</th>
               <th style={styles.th}>Code</th>
               <th style={styles.th}>Major</th>
-              <th style={styles.th}>Components</th>
+              <th style={styles.th}>Campus</th>
               <th style={styles.th}>Academic Program</th>
 
               <th style={styles.th}>Actions</th>

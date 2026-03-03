@@ -16,7 +16,8 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const CurriculumPanel = () => {
   const settings = useContext(SettingsContext);
@@ -610,23 +611,41 @@ const CurriculumPanel = () => {
                 >
                   <Button
                     variant="contained"
-                    size="small"
-                    sx={{ backgroundColor: "green", color: "white", mr: 1 }}
+                    startIcon={<EditIcon />}
                     onClick={() => handleEdit(item)}
-
+                    sx={{
+                      backgroundColor: "green",
+                      width: "100px",
+                      height: "40px",
+                      marginRight: "15px",
+                      borderRadius: "5px",
+                      textTransform: "none",
+                      "&:hover": {
+                        backgroundColor: "darkgreen",
+                      },
+                    }}
                   >
                     Edit
                   </Button>
 
                   <Button
-
-                    onClick={() => confirmDelete(item)}
                     variant="contained"
-                    size="small"
-                    sx={{ backgroundColor: "#9E0000", color: "white" }}
+                    startIcon={<DeleteIcon />}
+                    onClick={() => confirmDelete(item)}
+                    sx={{
+                      backgroundColor: "#9E0000",
+                      width: "100px",
+                      height: "40px",
+                      borderRadius: "5px",
+                      textTransform: "none",
+                      "&:hover": {
+                        backgroundColor: "#7A0000",
+                      },
+                    }}
                   >
                     Delete
                   </Button>
+
                 </TableCell>
               </TableRow>
             ))}
@@ -764,7 +783,7 @@ const CurriculumPanel = () => {
               boxShadow: "0 0 10px rgba(0,0,0,0.1)",
             }}
           >
-        
+
             <div style={{ marginBottom: "15px" }}>
               <label style={{ fontWeight: "bold" }}>Curriculum Year:</label>
               <select
